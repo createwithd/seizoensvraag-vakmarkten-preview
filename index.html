@@ -233,6 +233,9 @@ const MARKETS=[
        'Het gaat om kleine aantallen (gemiddeld 1.900 zoekopdrachten per maand), dus per maand schommelt het meer dan landelijk. Het afgelopen jaar werd er 32% minder gezocht dan het jaar ervoor.']}
 ];
 
+// volgorde: stucwerk bovenaan
+(function(){const ORDE=['Stucwerk','Stucwerk (Deventer/Apeldoorn/Zutphen)','Renovlies & glasvlies','Traprenovatie','Schilder (landelijk)','Schilder (Deventer/Apeldoorn/Zutphen)'];MARKETS.sort((a,b)=>ORDE.indexOf(a.key)-ORDE.indexOf(b.key));})();
+
 // Jaaroverzicht
 (function(){
   const LBL={'Renovlies & glasvlies':['Renovlies','& glasvlies'],'Traprenovatie':['Traprenovatie',''],'Stucwerk':['Stucwerk','landelijk'],'Stucwerk (Deventer/Apeldoorn/Zutphen)':['Stucwerk regio','Dev · Apd · Ztp'],'Schilder (landelijk)':['Schilder','landelijk'],'Schilder (Deventer/Apeldoorn/Zutphen)':['Schilder regio','Dev · Apd · Ztp']};
