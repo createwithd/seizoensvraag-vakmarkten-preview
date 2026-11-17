@@ -117,6 +117,21 @@ table{border-collapse:collapse;font-variant-numeric:tabular-nums;width:100%}
   <p class="note">Bron kosten per aanvraag: Google Ads Voortman Schilderwerken, november 2025 tot en met oktober 2026. Een aanvraag = offerte- of contactformulier. Eindoordeel = gemiddelde van de twee rijen.</p></div>
 </section>
 
+<section aria-labelledby="h-stuc">
+  <h2 id="h-stuc">Stucwerk (Appie): zoekvraag én kosten per aanvraag</h2>
+  <p>Alleen het afgelopen jaar (november 2025 tot en met oktober 2026). De totale zoekvraag naar stucwerk in Nederland (Zoekwoordplanner) naast wat een aanvraag Appie echt kost in Google Ads. Bij de kosten per aanvraag is goedkoper beter: groen betekent goedkoop, rood duur. De onderste rij combineert de twee.</p>
+  <div class="card heat-card scroll"><table class="heat" id="stucheat"></table></div>
+  <div class="card chart"><div class="cap">Kosten per aanvraag per maand, Appie, nov 2025 – okt 2026 (stippellijn = gemiddeld €62). December en januari draaiden de campagnes bijna niet.</div><div id="stucbars"></div></div>
+  <div class="why"><h3>Wat dit zegt</h3><ul>
+    <li><strong>Maart</strong> is de beste maand: de hoogste zoekvraag van het jaar (+26%) en een goedkope aanvraag (€49).</li>
+    <li><strong>Oktober</strong> leverde de goedkoopste aanvragen (€42) bij normale zoekvraag. <strong>Februari en juni</strong> waren ook goedkoop (€52 tot €55).</li>
+    <li><strong>Juli en augustus</strong> zijn slecht: minder zoekvraag én de duurste aanvragen van het voorjaar en de zomer (€69 tot €72).</li>
+    <li><strong>November</strong> was met €113 per aanvraag veruit het duurst.</li>
+    <li><strong>December en januari</strong> zijn niet te beoordelen op kosten: er liep bijna geen budget (€350 en €184, samen 1 aanvraag). Het eindoordeel is daar alleen op zoekvraag gebaseerd.</li>
+  </ul>
+  <p class="note">Bron kosten per aanvraag: Google Ads Appie (513-567-5688), alle campagnes, november 2025 tot en met oktober 2026. Een aanvraag = contactformulier op appie-stukadoor.nl. Let op: Appie adverteert binnen ±20 km rond Deventer, de zoekvraag is landelijk. De campagnes zijn in de loop van het jaar opgebouwd (Performance Max sinds februari), dus de eerste maanden zijn minder goed vergelijkbaar.</p></div>
+</section>
+
 <section aria-labelledby="h-key">
   <h2 id="h-key">Kort samengevat</h2>
   <p>Maart is in alle vijf de markten de beste maand. De zomer (juni tot en met augustus) en december zijn bijna overal slecht.</p>
@@ -272,6 +287,29 @@ function bars(mk){
     s+=`<text x="${x+bw/2}" y="${y(v)-6}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">€${v}</text>`;
     s+=`<text x="${x+bw/2}" y="${H-9}" text-anchor="middle" font-size="12" fill="var(--ink-2)">${MN[i]}</text>`;});
   document.getElementById('schbars').innerHTML=s+'</svg>';
+})();
+
+// Stucwerk Appie: zoekvraag + kosten per aanvraag (nov 2025 t/m okt 2026, volgorde jan..dec; null = te weinig budget)
+(function(){
+  const CPA=[null,52,49,65,65,55,69,72,64,42,113,null], AVG=62;
+  const zoek=M['Stucwerk'].y2;
+  const score={vgood:2,good:1,norm:0,bad:-1,vbad:-2};
+  const cZ=zoek.map(cls), cA=CPA.map(v=>v==null?null:cls(-Math.round(100*(v/AVG-1))));
+  const fin=MN.map((_,i)=>{const s=cA[i]==null?score[cZ[i]]:(score[cZ[i]]+score[cA[i]])/2;return s>=1.5?'vgood':s>=0.5?'good':s>-0.5?'norm':s>-1.5?'bad':'vbad';});
+  let h='<colgroup><col class="lbl">'+MN.map(()=>'<col>').join('')+'</colgroup><thead><tr><th></th>'+MN.map(m=>`<th scope="col">${m}</th>`).join('')+'</tr></thead><tbody>';
+  h+='<tr><th scope="row" class="rowh">Zoekvraag<small>stucwerk NL, Zoekwoordplanner</small></th>'+zoek.map((v,i)=>`<td class="c-${cZ[i]}" title="${MF[i]}: ${pct(v)} zoekvraag t.o.v. gemiddeld"><small>${pct(v)}</small>${word[cZ[i]]}</td>`).join('')+'</tr>';
+  h+='<tr><th scope="row" class="rowh">Kosten per aanvraag<small>Google Ads Appie</small></th>'+CPA.map((v,i)=>v==null?`<td style="background:var(--line);color:var(--ink-2)" title="${MF[i]}: campagnes draaiden bijna niet"><small>–</small>Te weinig</td>`:`<td class="c-${cA[i]}" title="${MF[i]}: €${v} per aanvraag"><small>€${v}</small>${word[cA[i]]}</td>`).join('')+'</tr>';
+  h+='<tr><th scope="row" class="rowh"><b>Eindoordeel</b></th>'+fin.map((c,i)=>`<td class="c-${c}" style="padding:12px 0;font-size:11.5px">${word[c]}${CPA[i]==null?'*':''}</td>`).join('')+'</tr>';
+  document.getElementById('stucheat').innerHTML=h+'</tbody>';
+  const W=600,H=250,L=44,R=8,T=22,B=28,max=120,step=(W-L-R)/12,bw=step*0.62,y=n=>T+(1-n/max)*(H-T-B);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Kosten per aanvraag per maand Appie">`;
+  for(let g=0;g<=max;g+=40){s+=`<line x1="${L}" x2="${W-R}" y1="${y(g)}" y2="${y(g)}" stroke="var(--line)"/><text x="${L-6}" y="${y(g)+4}" text-anchor="end" font-size="11" fill="var(--muted)">€${g}</text>`;}
+  s+=`<line x1="${L}" x2="${W-R}" y1="${y(AVG)}" y2="${y(AVG)}" stroke="var(--ink-2)" stroke-dasharray="4 4"/>`;
+  CPA.forEach((v,i)=>{const x=L+i*step+(step-bw)/2;
+    if(v==null){s+=`<text x="${x+bw/2}" y="${y(0)-6}" text-anchor="middle" font-size="10" fill="var(--muted)">geen</text>`;}
+    else{s+=`<rect x="${x}" y="${y(v)}" width="${bw}" height="${y(0)-y(v)}" rx="4" fill="var(--${cA[i]})"><title>${MF[i]}: €${v} per aanvraag</title></rect><text x="${x+bw/2}" y="${y(v)-6}" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ink)">€${v}</text>`;}
+    s+=`<text x="${x+bw/2}" y="${H-9}" text-anchor="middle" font-size="12" fill="var(--ink-2)">${MN[i]}</text>`;});
+  document.getElementById('stucbars').innerHTML=s+'</svg>';
 })();
 
 const KW={"Renovlies & glasvlies":[["renovlies behang",14062,1,5],["renovlies",7467,2,7],["glasvezelbehang",6317,0,5],["glasvlies behang",3825,8,7],["glasvlies",578,2,5],["renovlies kosten",64,2,4],["renovlies laten aanbrengen",41,8,10]],"Traprenovatie":[["traprenovatie",21475,0,5],["trap bekleden",7638,0,5],["trap renoveren",2808,8,5],["traprenovatie kosten",2712,1,5],["trap laten bekleden",856,8,5]],"Stucwerk":[["stukadoor",10371,2,5],["stucadoor",2979,2,7],["stucwerk",2504,1,7],["stukadoor kosten",834,2,6],["muren laten stucen",162,2,7],["plafond laten stucen",104,2,3]],"Schilder (landelijk)":[["schilder",14017,0,6],["schildersbedrijf",5079,2,11],["schilder amsterdam",912,2,5],["schilder utrecht",565,2,11],["schilder deventer",533,6,11],["schilder den haag",499,8,11],["schilder groningen",471,2,11],["schilder apeldoorn",461,2,11],["schilder rotterdam",454,2,11],["schildersbedrijf apeldoorn",408,2,9],["schilder eindhoven",391,2,11],["schilder zutphen",200,3,11],["schildersbedrijf deventer",194,8,11],["schildersbedrijf zutphen",116,2,6]],"Schilder (Deventer/Apeldoorn/Zutphen)":[["schilder deventer",533,6,11],["schilder apeldoorn",461,2,11],["schildersbedrijf apeldoorn",408,2,9],["schilder zutphen",200,3,11],["schildersbedrijf deventer",194,8,11],["schildersbedrijf zutphen",116,2,6]]};
