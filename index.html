@@ -231,6 +231,11 @@ function bars(mk){
   return s+'</svg>';
 }
 
+const KW={"Renovlies & glasvlies":[["renovlies behang",14062,1,5],["renovlies",7467,2,7],["glasvezelbehang",6317,0,5],["glasvlies behang",3825,8,7],["glasvlies",578,2,5],["renovlies kosten",64,2,4],["renovlies laten aanbrengen",41,8,10]],"Traprenovatie":[["traprenovatie",21475,0,5],["trap bekleden",7638,0,5],["trap renoveren",2808,8,5],["traprenovatie kosten",2712,1,5],["trap laten bekleden",856,8,5]],"Stucwerk":[["stukadoor",10371,2,5],["stucadoor",2979,2,7],["stucwerk",2504,1,7],["stukadoor kosten",834,2,6],["muren laten stucen",162,2,7],["plafond laten stucen",104,2,3]],"Schilder (landelijk)":[["schilder",14017,0,6],["schildersbedrijf",5079,2,11],["schilder amsterdam",912,2,5],["schilder utrecht",565,2,11],["schilder deventer",533,6,11],["schilder den haag",499,8,11],["schilder groningen",471,2,11],["schilder apeldoorn",461,2,11],["schilder rotterdam",454,2,11],["schildersbedrijf apeldoorn",408,2,9],["schilder eindhoven",391,2,11],["schilder zutphen",200,3,11],["schildersbedrijf deventer",194,8,11],["schildersbedrijf zutphen",116,2,6]],"Schilder (Deventer/Apeldoorn/Zutphen)":[["schilder deventer",533,6,11],["schilder apeldoorn",461,2,11],["schildersbedrijf apeldoorn",408,2,9],["schilder zutphen",200,3,11],["schildersbedrijf deventer",194,8,11],["schildersbedrijf zutphen",116,2,6]]};
+function kwTable(key){
+  return `<div class="card scroll"><h3 style="margin-bottom:10px">Zoektermen</h3><table class="vt"><thead><tr><th>Zoekterm</th><th>Gem. per maand</th><th>Beste maand</th><th>Slechtste maand</th></tr></thead><tbody>`+
+    KW[key].map(([k,a,b,w])=>`<tr><td>${k}</td><td>${nf(a)}</td><td style="text-align:left">${MF[b]}</td><td style="text-align:left">${MF[w]}</td></tr>`).join('')+'</tbody></table></div>';
+}
 // Per markt
 (function(){
   const host=document.getElementById('markets');
@@ -243,6 +248,7 @@ function bars(mk){
         <div class="card chart"><div class="cap">Zoekopdrachten per maand (gemiddelde van 2025 en 2026)</div>${bars(mk)}</div>
         <div class="card scroll"><table class="vt"><thead><tr><th>Maand</th><th>Zoekopdr.</th><th>T.o.v. gem.</th><th>Oordeel</th><th>Beide jaren?</th></tr></thead><tbody>${rows}</tbody></table></div>
       </div>
+      ${kwTable(mk.key)}
       <div class="why"><h3>Waarom</h3><ul>${mk.why.map(w=>`<li>${w}</li>`).join('')}</ul></div>`;
     host.appendChild(el);
   });
